@@ -8,6 +8,10 @@
     // 7. Spread Operator
     // 8. Rest Parameters
     // 9. Hosting
+    // 10. Arrays
+    // 11. Objects
+    // 12. Operators
+    // 13. Keyword 'this'
 
 // 1. Variables and Data Types
 let name = "John"; // String
@@ -224,3 +228,51 @@ console.log(greet("Alice")); // Hello, Alice!
         }
     };
     console.log(person4.address.city); // Anytown   
+
+
+// 12. Operators
+    let a = 10;
+    let b = 5;
+    console.log(a + b); // 15
+    console.log(a - b); // 5
+    console.log(a * b); // 50
+    console.log(a / b); // 2
+    console.log(a % b); // 0
+    a++;
+    console.log(a); // 11
+    b--;
+    console.log(b); // 4
+    console.log(a > b); // true
+    console.log(a < b); // false
+    console.log(a >= b); // true
+    console.log(a <= b); // false
+    console.log(a === b); // false
+    console.log(a !== b); // true   
+
+    5 === "5"; // false (strict equality checks type as well)
+    5 == "5"; // true (loose equality converts types before comparison) 
+
+    undefined == null; // true
+    undefined === null; // false (strict equality checks type as well)
+
+    // 13. Keyword 'this'
+    let person5 = {
+        name: "Bob",
+        greet: function () {
+            console.log(`Hello, my name is ${this.name}`);
+        }
+    };
+    person5.greet(); // Hello, my name is Bob
+
+    // Example of 'this' in a function
+    function showThis() {
+        console.log(this);
+    }
+    showThis(); // In non-strict mode, this will log the global object (window in browsers). In strict mode, it will log undefined.
+
+    // Example of 'this' in an arrow function
+    const arrowFunction = () => {
+        console.log(this);
+    };
+    arrowFunction(); // Arrow functions do not have their own 'this', so it will log the 'this' value of the enclosing context.
+    
