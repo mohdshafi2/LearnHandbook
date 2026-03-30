@@ -1,0 +1,149 @@
+// Learn javascript basic
+    // 1. Variables
+    // 2. Data Types
+    // 3. Functions
+    // 4. Arrow Functions
+    // 5. Control Structures (if-else, switch, ternary operator)
+    // 6. Parameters and Arguments
+    // 7. Spread Operator
+    // 8. Rest Parameters
+    // 9. Hosting
+
+// 1. Variables and Data Types
+let name = "John"; // String
+let age = 30; // Number
+let isStudent = true; // Boolean
+let hobbies = ["reading", "gaming", "coding"]; // Array
+let person = { name: "John", age: 30 }; // Object
+
+// 2. Data Types
+console.log(typeof name); // string
+console.log(typeof age); // number
+console.log(typeof isStudent); // boolean
+console.log(typeof hobbies); // object (arrays are objects in JavaScript)
+console.log(typeof person); // object
+
+// 3. Functions
+function greet(name) {
+    return `Hello, ${name}!`;
+}
+console.log(greet("Alice")); // Hello, Alice!
+
+// 4. Arrow Functions
+    // 4.1 Arrow function with a single parameter and a single expression
+    const greet2 = (lastName) => {
+        return (
+            `Hello, ${lastName}!`
+        )
+    };
+    console.log(greet2("Bob")); // Hello, Bob!
+
+    // 4.2 Arrow function single line
+    const add = (a, b) => a + b;
+    console.log(add(5, 3)); // 8
+
+// 5. Control Structures
+    // 5.1 If-else statement
+    let score = 85;
+    if (score >= 90) {
+        console.log("Grade: A");
+    } else if (score >= 80) {
+        console.log("Grade: B");
+    } else if (score >= 70) {
+        console.log("Grade: C");
+    } else {
+        console.log("Grade: F");
+    }
+
+    // 5.2 If statement age voting eligibility
+    let age2 = 20;
+    if (age2 >= 18) {
+        console.log("You are eligible to vote.");
+    } else {
+        console.log("You are not eligible to vote.");
+    }
+
+    // 5.3 Switch statement
+    let day = 3;
+    switch (day) {
+        case 1:
+            console.log("Monday");
+            break;
+        case 2:
+            console.log("Tuesday");
+            break;
+        case 3:
+            console.log("Wednesday");
+            break;
+        case 4:
+            console.log("Thursday");
+            break;
+        case 5:
+            console.log("Friday");
+            break;
+        case 6:
+            console.log("Saturday");
+            break;
+        case 7:
+            console.log("Sunday");
+            break;
+        default:
+            console.log("Invalid day");
+    }   
+
+
+    // 5.4 Ternary operator
+    let isEven = (age2 % 2 === 0) ? "Even" : "Odd";
+    console.log(isEven); // Even
+
+    // Example of nested ternary operator
+    let grade = (score >= 90) ? "A" :
+                (score >= 80) ? "B" :
+                (score >= 70) ? "C" : "F";
+    console.log(`Grade: ${grade}`); // Grade: B
+
+// 6. Parameters and Arguments
+    // Simple function with parameters and arguments
+    function addNumbers(a, b) {
+        return a + b;
+    }
+    console.log(addNumbers(10, 20)); // 30 
+
+    // Example 2 
+    function introduce(name, age) {
+        return `My name is ${name} and I am ${age} years old.`;
+    }
+    console.log(introduce("Charlie", 28)); // My name is Charlie and I am 28 years old.
+    
+
+// 7. Spread Operator
+    let arr1 = [1, 2, 3];
+    let arr2 = [4, 5, 6];
+    let combinedArr = [...arr1, ...arr2];
+    console.log(combinedArr); // [1, 2, 3, 4, 5, 6]
+
+    let person2 = { name: "Alice", age: 25 };
+    let updatedPerson = { ...person2, age: 30 };
+    console.log(updatedPerson); // { name: "Alice", age: 30 }
+
+// 8. Rest Parameters
+    function sum(...numbers) {
+        return numbers.reduce((total, num) => total + num, 0);
+    }
+    console.log(sum(1, 2, 3)); // 6
+
+    function createPerson(name, age, ...hobbies) {
+        return {
+            name,
+            age,
+            hobbies
+        };
+    }
+    let person3 = createPerson("Bob", 30, "gaming", "coding");
+    console.log(person3); // { name: "Bob", age: 30, hobbies: ["gaming", "coding"] }
+
+// 9. Hosting
+    console.log(greet3("Dave")); // Hello, Dave!
+    function greet3(name) {
+        return `Hello, ${name}!`;
+    }
