@@ -16,6 +16,7 @@ let isStudent = true; // Boolean
 let hobbies = ["reading", "gaming", "coding"]; // Array
 let person = { name: "John", age: 30 }; // Object
 
+
 // 2. Data Types
 console.log(typeof name); // string
 console.log(typeof age); // number
@@ -147,3 +148,79 @@ console.log(greet("Alice")); // Hello, Alice!
     function greet3(name) {
         return `Hello, ${name}!`;
     }
+    // Example of hosting with variables
+    console.log(myVar); // undefined
+    var myVar = "I am a variable";
+    console.log(myVar); // I am a variable
+
+    // Example of hosting with let and const
+    // console.log(myLet); // ReferenceError: Cannot access 'myLet' before initialization
+    let myLet = "I am a let variable";
+    console.log(myLet); // I am a let variable
+
+    // console.log(myConst); // ReferenceError: Cannot access 'myConst' before initialization
+    const myConst = "I am a const variable";
+    console.log(myConst); // I am a const variable
+
+// 10. Arrays
+    let fruits = ["apple", "banana", "cherry"];
+    console.log(fruits[0]); // apple
+    console.log(fruits.length); // 3
+    fruits.push("date");
+    console.log(fruits); // ["apple", "banana", "cherry", "date"]
+    fruits.pop();
+    console.log(fruits); // ["apple", "banana", "cherry"]
+    fruits.unshift("avocado");
+    console.log(fruits); // ["avocado", "apple", "banana", "cherry"]
+    fruits.shift();
+    console.log(fruits); // ["apple", "banana", "cherry"]
+    fruits.splice(1, 1);
+    console.log(fruits); // ["apple", "cherry"]
+    let citrus = fruits.slice(0, 1);
+    console.log(citrus); // ["apple"]
+    let allFruits = fruits.concat(citrus);
+    console.log(allFruits); // ["apple", "cherry", "apple"]
+    let index = fruits.indexOf("cherry");
+    console.log(index); // 1
+    let hasBanana = fruits.includes("banana");
+    console.log(hasBanana); // false    
+
+
+    
+// 11. Objects  
+    let car = {
+        make: "Toyota",
+        model: "Camry",
+        year: 2020,
+        getCarInfo: function () {
+            return `${this.make} ${this.model} (${this.year})`;
+        }
+    };
+    console.log(car.getCarInfo()); // Toyota Camry (2020)
+
+    // Example of object destructuring
+    let { make, model } = car;
+    console.log(make); // Toyota
+    console.log(model); // Camry
+
+    // Example of object methods
+    car.start = function () {
+        console.log("Car started");
+    };
+    car.start(); // Car started 
+    car.stop = function () {
+        console.log("Car stopped");
+    };
+    car.stop(); // Car stopped
+
+    // Example of nested objects
+    let person4 = {
+        name: "Alice",
+        age: 25,
+        address: {
+            street: "123 Main St",
+            city: "Anytown",
+            country: "USA"
+        }
+    };
+    console.log(person4.address.city); // Anytown   
