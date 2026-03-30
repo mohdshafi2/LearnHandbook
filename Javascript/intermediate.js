@@ -180,3 +180,8 @@ console.log(sum); // 15
         let totalAge2 = people2.reduce((accumulator, person) => accumulator + person.age, 0);
         console.log(totalAge2); // 90 (25 + 30 + 35)
 
+// 5. Pure Function
+    function pureAdd(a, b) {
+        return a + b;
+    }
+    console.log(pureAdd(5, 3)); // 8
