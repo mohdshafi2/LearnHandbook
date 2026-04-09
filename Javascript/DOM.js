@@ -47,6 +47,31 @@
     elementById.addEventListener("mouseout", function () {
         this.style.backgroundColor = "";
     });
+    // Render once the DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM fully loaded and parsed");
+        elementById.textContent = "DOM is ready!";
+    });
+    // Form Events
+    useSearch.addEventListener("input", () => {});
+    form.addEventListener("submit", () => {});
+    input.addEventListener("change", () => {});
+    // Window Events
+    window.addEventListener("load", () => {});
+    window.addEventListener("resize", () => {});     
+    // Keyboard Events
+    document.addEventListener("keydown", (event) => {
+        console.log(`Key pressed: ${event.key}`);
+    });   
+    // keydown
+    // keyup
+    // keypress
+
+    //Quick ideal
+    // load → full page loaded (including images)
+    // DOMContentLoaded → DOM ready
+    // resize → window resized
+    // scroll → window scrolled
 
 
 // 5. Creating and Removing Elements
@@ -69,10 +94,3 @@
     // 7.3 Avoid using innerHTML when possible to prevent security risks.
     // 7.4 Use document fragments for batch updates to improve performance.
     // 7.5 Keep JavaScript separate from HTML for better maintainability.
-
-
-
-
-
-
-
