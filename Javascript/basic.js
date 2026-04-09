@@ -12,8 +12,14 @@
     // 11. Objects
     // 12. Operators
     // 13. Keyword 'this'
+    // 14. Join() and Split()
 
 // 1. Variables and Data Types
+    // Description: variables using var, let, and const
+    // var is global variable that is hoisted and can be re-assigned & updated
+    // let is block-scoped variable that can be updated re-assigned but not redeclared
+    // const is block-scoped variable that cannot be updated or redeclared or re-assigned
+
 let name = "John"; // String
 let age = 30; // Number
 let isStudent = true; // Boolean
@@ -29,6 +35,20 @@ console.log(typeof hobbies); // object (arrays are objects in JavaScript)
 console.log(typeof person); // object
 
 // 3. Functions
+    // Difference between function and  Arrow function 
+    
+    // Function: Traditional function with its own this
+    // Arrow: Short function without its own this
+
+    // Function: Hoisted
+    // Arrow: Not hoisted (treated like variable)
+
+    // Function arrugments: Can be accessed using arguments object
+    // Arrow: Does not have arguments object
+
+    // Function: Can be used as constructor
+    // Arrow: Cannot be used as constructor
+
 function greet(name) {
     return `Hello, ${name}!`;
 }
@@ -46,6 +66,8 @@ console.log(greet("Alice")); // Hello, Alice!
     // 4.2 Arrow function single line
     const add = (a, b) => a + b;
     console.log(add(5, 3)); // 8
+
+    
 
 // 5. Control Structures
     // 5.1 If-else statement
@@ -108,20 +130,30 @@ console.log(greet("Alice")); // Hello, Alice!
     console.log(`Grade: ${grade}`); // Grade: B
 
 // 6. Parameters and Arguments
+    // Parameters: Variables defined in the function declaration
+    // Arguments: Actual values passed to the function when it is called
+
+    // Quick Memory:
+    // Parameter → placeholder
+    // Argument → real value
+
     // Simple function with parameters and arguments
-    function addNumbers(a, b) {
+    function addNumbers(a, b) { // a, b → parameters
         return a + b;
     }
-    console.log(addNumbers(10, 20)); // 30 
+    console.log(addNumbers(10, 20)); // 30 , // 10, 20 → arguments
 
     // Example 2 
-    function introduce(name, age) {
+    function introduce(name, age) { // name, age → parameters
         return `My name is ${name} and I am ${age} years old.`;
     }
     console.log(introduce("Charlie", 28)); // My name is Charlie and I am 28 years old.
     
 
 // 7. Spread Operator
+    // One-line: Spread expands array/object into individual values
+    // Quick Memory: Spread = Expand, Copy of array or object then merge it.
+
     let arr1 = [1, 2, 3];
     let arr2 = [4, 5, 6];
     let combinedArr = [...arr1, ...arr2];
@@ -132,22 +164,42 @@ console.log(greet("Alice")); // Hello, Alice!
     console.log(updatedPerson); // { name: "Alice", age: 30 }
 
 // 8. Rest Parameters
-    function sum(...numbers) {
+    // One-line: Collects multiple arguments into a single array
+    // Quick Memory: Rest = Collect, Gather values into an array.
+    //👉 Rest = take many values → convert into array
+
+    // Example 1:
+    function sum(...numbers) { // ...numbers → rest parameter
         return numbers.reduce((total, num) => total + num, 0);
     }
     console.log(sum(1, 2, 3)); // 6
 
-    function createPerson(name, age, ...hobbies) {
-        return {
-            name,
-            age,
-            hobbies
-        };
+    // Example 2:
+    function greet(first, ...others) {
+        console.log(first);
+        console.log(others);
     }
-    let person3 = createPerson("Bob", 30, "gaming", "coding");
-    console.log(person3); // { name: "Bob", age: 30, hobbies: ["gaming", "coding"] }
+
+    greet("Hi", "Hello", "Hey");
+    // first → "Hi"
+    // others → ["Hello", "Hey"]
+
+    // Example 3:
+    function test(...nums) {
+    console.log(nums);
+    }
+
+    test(1, 2, 3, 4); 
+    // nums = [1, 2, 3, 4]
+
+    // conclusion:
+    //Spread → expand
+    //Rest → collect
 
 // 9. Hosting
+    // Hoisting is JavaScript’s default behavior where variable and function declarations are moved to the top of their scope before execution.
+    // Hoisting = declarations move to top (not values)
+
     console.log(greet3("Dave")); // Hello, Dave!
     function greet3(name) {
         return `Hello, ${name}!`;
@@ -178,12 +230,56 @@ console.log(greet("Alice")); // Hello, Alice!
     console.log(fruits); // ["avocado", "apple", "banana", "cherry"]
     fruits.shift();
     console.log(fruits); // ["apple", "banana", "cherry"]
-    fruits.splice(1, 1);
-    console.log(fruits); // ["apple", "cherry"]
-    let citrus = fruits.slice(0, 1);
-    console.log(citrus); // ["apple"]
-    let allFruits = fruits.concat(citrus);
-    console.log(allFruits); // ["apple", "cherry", "apple"]
+
+    // a. Splice array.splice(start, deleteCount, newItems...)
+    let alp = ["a", "b", "c", "d"];
+    // Start at index 1
+    // Delete 2 elements → "b", "c"
+    alp.splice(1, 2); // ["b", "c"] (deleted elements)
+    console.log(alp); // ["a", "d"]
+    let alp1 = ["a", "b", "c", "d"];
+    // Start at index 1
+    // Delete 2 → "b", "c"
+    // Insert "x", "y"
+    alp1.splice(1, 2, "x", "y"); // ["b", "c"] (deleted elements), "x", "y" (new elements)
+    console.log(alp1); // ["a", "x", "y", "d"]
+
+    // b. Slice array.slice(start, end)
+    let numbers = [1, 2, 3, 4, 5];
+    let slicedNumbers = numbers.slice(1, 4);
+    console.log(slicedNumbers); // [2, 3, 4] (end index is exclusive)
+    let slicedNumbers2 = numbers.slice(2);
+    console.log(slicedNumbers2); // [3, 4, 5] (slices from index 2 to the end)
+    
+    let ap2 = ["a", "b", "c", "d"];
+    ap2.slice(-2); // ["c", "d"] (slices start from the last 2 elements)
+    ap2.slice(-1); // ["d"]
+    ap2.slice(-3); // ["b","c","d"]
+
+    // Quick Memory:
+    // splice() → modify
+    // slice() → copy
+    // Concat() → merge arrays
+
+    // c. Concat, indexOf, includes
+
+    let con1 = ["a", "b"];
+    let con2 = ["c", "d"];
+    let result11 = con1.concat(con2);
+    console.log(result11); // ["a","b","c","d"]
+
+    //example 2:
+    let result = con1.concat("c", "d");
+    console.log(result); // ["a","b","c","d"]
+
+    // Quick Memory: Difference between concat and spread operator
+    // concat() → method to combine arrays
+    // spread (...) → syntax to expand values
+
+    //concat() → only works with arrays
+    //spread → works with arrays, objects, function args
+   
+
     let index = fruits.indexOf("cherry");
     console.log(index); // 1
     let hasBanana = fruits.includes("banana");
@@ -276,3 +372,28 @@ console.log(greet("Alice")); // Hello, Alice!
     };
     arrowFunction(); // Arrow functions do not have their own 'this', so it will log the 'this' value of the enclosing context.
     
+// 13. Join and Split
+    // One-line: Convert array into string using join()
+    // One-line: Convert string into array using split()
+
+    //Quick memory:
+    //join() → array ➝ string
+    //split() → string ➝ array
+
+    // Example of join()
+    const arr = ["a", "b", "c"];
+    const str = arr.join();
+
+    console.log(str); // "a,b,c"
+
+    // Example of split()
+    const str1 = "a,b,c";
+    const arr4 = str.split(",");
+
+    console.log(arr4); // ["a","b","c"]
+
+    // Example of split() with empty string
+    const str2 = "hello";
+    const arr5 = str2.split("");
+
+    console.log(arr5); // ["h","e","l","l","o"]
