@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Async Await Example</title>
+</head>
+<body>
+    <h1>Async Await Example - Fetch Users</h1>
+
+    <div id="userData"></div>
+
+<script>
+    const userDiv = document.getElementById("userData");
+
+    userDiv.innerHTML = "Loading user data...";
+
+    async function fetchUsers() {
+        try {
+            const res = await fetch("https://jsonplaceholder.typicode.com/users/");
+            const users = await res.json();
+
+            users.map(user => {
+                userDiv.innerHTML += `
+                    <h2>${user.name}</h2>
+                    <p><strong>Email:</strong> ${user.email}</p>
+                    <p><strong>Phone:</strong> ${user.phone}</p>
+                    <p><strong>Website:</strong> ${user.website}</p>
+                    <hr />
+                `;
+            });
+
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
+    fetchUsers();
+</script>
+
+</body>
+</html>
