@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loops in JavaScript</title>
+</head>
+<body>
+    <div id="main">
+        <h1>Loops in JavaScript</h1>
+        <hr />
+        <h2>1. Example of for loop</h2>
+        <div id="for-loop-example"></div>
+        <h2>2. Example of for...in loop</h2>
+        <div id="for-in-loop-example"></div>
+        <h2>3. Example of forEach loop</h2>
+        <div id="for-each-loop-example"></div>
+        <h2>4. Example of map loop</h2>
+        <div id="map-loop-example"></div>  
+        <h2>5. Example of filter loop</h2>
+        <div id="filter-loop-example"></div> 
+    </div>
+    
+    <script>
+        let users = [ 
+            {
+                name: "Shafiuddin",
+                age: 30,
+                city: "Dhaka"
+            },
+            {
+                name: "John Doe",
+                age: 25,
+                city: "New York"
+            },
+            {
+                name: "Jane Smith",
+                age: 28,
+                city: "London"
+            }
+        ];
+        
+        // 1. For loop to display user information start
+        const container = document.getElementById("for-loop-example");
+        let forLoopHtml = "";
+
+        for (let i = 0; i < users.length; i++) {
+        const user = users[i];
+
+        forLoopHtml += `
+            <div class="user-card">
+            <p><strong>Name:</strong> ${user.name}</p>
+            <p><strong>Age:</strong> ${user.age}</p>
+            <p><strong>City:</strong> ${user.city}</p>
+            <hr />
+            </div>
+        `;
+        }
+
+        container.innerHTML = forLoopHtml;
+        // 1. For loop to display user information end
+
+
+        // 2. For...in loop to display user information start
+        const forInContainer = document.getElementById("for-in-loop-example");
+        let forInHtml = "";
+
+        for (const user of users) {
+        forInHtml += `
+            <div class="user-card">
+            <p><strong>Name:</strong> ${user.name}</p>
+            <p><strong>Age:</strong> ${user.age}</p>
+            <p><strong>City:</strong> ${user.city}</p>
+            <hr />
+            </div>
+        `;
+        }
+
+        forInContainer.innerHTML = forInHtml;
+
+        // 2. For...in loop to display user information end
+
+
+        // 3. forEach loop to display user information start
+        const forEachContainer = document.getElementById("for-each-loop-example");
+        let forEachHtml = "";   
+
+        users.forEach(user => {
+        forEachHtml += `
+            <div class="user-card">
+            <p><strong>Name:</strong> ${user.name}</p>
+            <p><strong>Age:</strong> ${user.age}</p>
+            <p><strong>City:</strong> ${user.city}</p>
+            <hr />
+            </div>
+        `;
+        });
+        forEachContainer.innerHTML = forEachHtml;
+        // 3. forEach loop to display user information end
+
+        // 4. map loop to display user information start
+       const mapContainer = document.getElementById("map-loop-example");
+
+        const mapHtml = users.map(user => `
+            <div class="user-card">
+                <p><strong>Name:</strong> ${user.name}</p>
+                <p><strong>Age:</strong> ${user.age}</p>
+                <p><strong>City:</strong> ${user.city}</p>
+                <hr />
+            </div>
+        `).join("");
+
+        // help to understand
+        // “Why .join() after map()?”
+        // Because map() returns an array, and innerHTML expects a string. Without .join(), the array gets converted with commas, which breaks HTML rendering.
+
+        mapContainer.innerHTML = mapHtml;
+        // 4. map loop to display user information end
+
+
+        // ⚖️ Compare with map() vs forEach() for building HTML:
+        // forEach flow:
+        // let html = ""; // string
+        // forEach → append → string
+
+        // map flow:
+        // map → array → join("") → string
+
+        // Quick idea:
+        // map → “Give me a new array”
+        // forEach → “Let me loop and build manually”
+
+
+        //         | Feature                    | `map()`        | `forEach()`          |
+        // | -------------------------- | -------------- | -------------------- |
+        // | Return value               | ✅ New array    | ❌ `undefined`        |
+        // | Purpose                    | Transform data | Perform side effects |
+        // | Chainable                  | ✅ Yes          | ❌ No                 |
+        // | Immutability               | ✅ Preferred    | ❌ Often mutates      |
+        // | Use in React               | ✅ Very common  | ❌ Not used           |
+        // | Needs `.join()` (for HTML) | ✅ Yes          | ❌ No                 |
+
+
+        // 5. Filter loop to display user information start
+        const filterContainer = document.getElementById("filter-loop-example");
+
+        const filteredUsers = users.filter(user => user.age > 25);
+
+        //use map to build HTML
+        filterHtml = filteredUsers.map(user => `
+            <div class="user-card">
+                <p><strong>Name:</strong> ${user.name}</p>
+                <p><strong>Age:</strong> ${user.age}</p>
+                <p><strong>City:</strong> ${user.city}</p>
+                <hr />
+            </div>
+        `).join("");    
+
+        filterContainer.innerHTML = filterHtml;
+        // 5. Filter loop to display user information end
+
+
+    </script>
+</body>
+</html>
