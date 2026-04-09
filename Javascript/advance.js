@@ -1,36 +1,131 @@
 // Advanced JavaScript Concepts
-    // 1. Promises and Async/Await
-    // 2. Callbacks
-    // 3. Closures
-    // 4. Carrying
-    // 5. Prototypes and Inheritance
-    // 6. Composition
-    // 7. Generators
-    // 8. ES6 Modules
-    // 9. Error Handling
-    // 10. Memory Management
-    // 11. Performance Optimization
-    // 12. Local Storage and Session Storage
-    // 13. Web Workers
+    // 1. Carrying
+    // 2. Closures
+    // 3. Promises
+    // 4. Async/Await
+    // 5. Debouncing and AbortController and Throttling
+    // 6. Event Loop and Microtasks vs Macrotasks
+    // 7. Pure Functions
+    // 8. Local vs Session vs Cookies for Storage
+    // 9. Performance Optimization
+    // 10. Web Workers
+    // 11. Memory Management
+    // 12. Prototypes and Inheritance
+    // 13. Composition
+    // 14. Generators
 
     
-// 1.1 Promises
-    let promise = new Promise((resolve, reject) => {
+// 1. Carrying vs normal functions
+    // Carrying Step-by-step input → one argument per function
+    // Currying means taking one argument at a time instead of all at once.
+    // Currying is converting a function with multiple arguments into a sequence of functions that take one argument at a time.
+
+    // Normal function
+    function add(a, b) {
+        return a + b;
+    }
+    console.log(add(5, 3)); // 8
+    
+    // Carrying function
+    function add(a) {
+        return function (b) {
+            return a + b;
+        };
+    }
+    console.log(add(9)(8)); // 17
+
+    // Quick idea:
+    // Instead of: add(a, b)
+    // We do: add(a)(b)
+
+    //why carrying?
+    // 1. Resuability
+    const add10 = add(10);
+    add10(5);  // 15
+    add10(20); // 30
+
+    // Arrow function version of currying
+    const add = a => b => c => a + b + c;
+    add(1)(2)(3); // 6
+
+// 2. Closures
+    // A closure is when a function remembers variables from its outer function even after the outer function has finished executing.
+    // Quick idea:
+    // Closure = function remembers its parent variables
+    // 👉 Inner function remembers outer variables
+    function add(a) {
+        return function(b) {
+            return a + b;
+        };
+    }
+    // 👉 Here:
+    // b is current input
+    // a is remembered → closure
+    add(5)(10); // 15
+    // so inner function remembers the value of a even after the outer function has finished executing.
+    
+    // Another example of closure
+    function createCounter() {
+        let count = 0; // This variable is enclosed in the closure
+        return function() {
+            count++; // The inner function has access to the outer variable 'count'
+            return count;
+        };
+    }
+    const counter = createCounter();
+    console.log(counter()); // 1
+    console.log(counter()); // 2
+    console.log(counter()); // 3
+
+// 3. Promises
+    // A Promise is an object that represents the eventual success or failure of an asynchronous operation.
+    // 3 States of a Promise
+    // Pending   → initial state
+    // Resolved  → success (.then)
+    // Rejected  → failure (.catch)
+
+    // Step 1: Create Promise
+    const fetchPromise = new Promise((resolve, reject) => {
+        // Simulate async work (like API call)
         setTimeout(() => {
-            resolve("Promise resolved!");
+            const success = true;
+
+            if (success) {
+                resolve("✅ Data fetched successfully");
+            } else {
+                reject("❌ Error occurred");
+            }
         }, 2000);
     });
-    promise.then(result => {
-        console.log(result); // Promise resolved! (after 2 seconds)
+
+    // Step 2: Consume Promise
+    fetchPromise.then(result => {
+        console.log(result); // ✅ Data fetched successfully (after 2 seconds)
     }).catch(error => {
-        console.error(error);
+        console.error(error); // ❌ Error occurred (if any)
     });
 
-// 1.2 Async/Await
+    // Example of Promise with fetch API
+    fetch("https://jsonplaceholder.typicode.com/users/")
+            .then(res => res.json())
+            .then(data => console.log(data))  // Full data
+            .catch(err => console.error("Error:", err));
+
+// 4. Async/Await
+
+    // Quick idea:
+    // Asyc -> Always returns a Promise (Asyncronous function)
+        // Executes asynchronously (non-blocking)
+    // Await -> Waits for a Promise to resolve (synchronous code style for async operations)
+        // await pauses only inside the function
+        // It does NOT block the main thread       
+    
+    // Example of Async/Await
     async function fetchData() {
         try {
-            let response = await fetch("https://api.example.com/data");
+            let response = await fetch("https://jsonplaceholder.typicode.com/users/");
             let data = await response.json();
+
             console.log(data);
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -38,37 +133,33 @@
     }
     fetchData();
 
-// 2. Callbacks
-    function fetchDataWithCallback(callback) {
-        setTimeout(() => {
-            let data = { name: "John", age: 30 };
-            callback(data);
-        }, 2000);
-    }
-    fetchDataWithCallback(function (data) {
-        console.log("Data received:", data); // Data received: { name: "John", age: 30 } (after 2 seconds)
-    });
+// 5. Debouncing and AbortController and Throttling
+    // 5.1 Debouncing delays execution until the user stops triggering the event for a specific time.
+    // Quick idea:
+    // User typing -> a → ab → abc → abcd
+    // Only ONE API call after user stops typing
 
-// 3. Closures
-    function outerFunction(outerVariable) {
-        return function innerFunction(innerVariable) {
-            console.log("Outer Variable:", outerVariable);
-            console.log("Inner Variable:", innerVariable);
-        };
-    }
-    const newFunction = outerFunction("I am from the outer function");
-    newFunction("I am from the inner function");
+    // 5.2 AbortController is used to cancel ongoing API requests to avoid outdated results.
+    // Quick idea:
+    // User types "abc" → API call 1 (for "a") → API call 2 (for "ab") → API call 3 (for "abc")
+    // Old API calls are cancelled
+    // Only latest result is used
 
-// 4. Carrying
-    function add(a) {
-        return function (b) {
-            return a + b;
-        };
-    }
-    const add5 = add(5);
-    console.log(add5(3)); // 8 (5 + 3) 
+    // 5.3 Throttling ensures a function runs at most once in a fixed time interval.
+    // Quick idea:
+    // User scrolls → scroll event fires rapidly
+    // Throttle → function executes at most once every 200ms
+    // Executes every 1 second only
 
-// 5. Prototypes and Inheritance
+
+
+// 5. Pure Functions
+    function pureAdd(a, b) {
+        return a + b;
+    }
+    console.log(pureAdd(5, 3)); // 8
+
+// 6. Prototypes and Inheritance
     function Person(name, age) {
         this.name = name;
         this.age = age;
@@ -90,6 +181,7 @@
 
 
 // 7. Composition
+    // Composition is a way to create objects by combining reusable functions instead of inheriting from classes.
     const canEat = {
         eat: function () {
             console.log("Eating...");
@@ -116,6 +208,11 @@
     person2.swim(); // Swimming...  
 
 // 8. Generators
+    // A Generator is a special function that can pause and resume execution using the yield keyword.
+    // Quick idea:
+    // Normal function → runs completely
+    // Generator → runs step by step
+
     function* generatorFunction() {
         yield "First value";
         yield "Second value";
@@ -127,67 +224,67 @@
     console.log(generator.next().value); // Third value
     console.log(generator.next().value); // undefined (no more values to yield) 
 
-// 9. ES6 Modules
-    // In file math.js
-    export function add(a, b) {
-        return a + b;
-    }
-    export function subtract(a, b) {
-        return a - b;
-    }
+// 12. Local Storage vs Session Storage vs Cookies Storage
+    // 12.1 Local Storage: localStorage is a Web Storage API that stores data in the browser with no expiration time.
+    // Not sent to server
 
-    // In file main.js
-    import { add, subtract } from './math.js';
-    console.log(add(5, 3)); // 8
-    console.log(subtract(5, 3)); // 2   
-
-// 10. Error Handling
-    try {
-        let result = riskyFunction();
-        console.log(result);
-    } catch (error) {
-        console.error("An error occurred:", error);
-    } finally {
-        console.log("This will always execute.");
-    }
-
-// 11. Memory Management
-    // JavaScript uses automatic garbage collection to manage memory. It identifies and frees up memory that is no longer in use, preventing memory leaks and optimizing performance. Developers should be mindful of creating unnecessary references to objects, as this can prevent garbage collection and lead to memory issues. 
-
-// 12. Performance Optimization
-    // 12.1 Minimize DOM access by caching references to elements.
-    // 12.2 Use event delegation to handle events efficiently.
-    // 12.3 Avoid using innerHTML when possible to prevent security risks.
-    // 12.4 Use document fragments for batch updates to improve performance.
-    // 12.5 Keep JavaScript separate from HTML for better maintainability.
-
-// 13. Local Storage and Session Storage
-    // Local Storage
+    // Store
     localStorage.setItem("username", "JohnDoe");
+    // Get
     let username = localStorage.getItem("username");
     console.log(username); // JohnDoe
+    // Remove
     localStorage.removeItem("username");
+    // Clear all
     localStorage.clear();
 
-    // Session Storage
+    // 12.2 Session Storage: sessionStorage stores data only for a single browser tab/session.
+    // Not sent to server
+
     sessionStorage.setItem("sessionId", "abc123");
     let sessionId = sessionStorage.getItem("sessionId");
     console.log(sessionId); // abc123
     sessionStorage.removeItem("sessionId");
     sessionStorage.clear();
 
+    // 12.3 Cookies Storage: Cookies are small pieces of data stored in the browser and sent to the server with every HTTP request.
+    // Sent to server
+    // Use Cases: Authentication, User Preferences, Tracking
+
+    // Set cookie
+    document.cookie = "username=Shafi; expires=Fri, 31 Dec 2026 12:00:00 UTC; path=/";
+
+    // Read cookie
+    console.log(document.cookie);
+
+    // Delete cookie
+    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+
 // 14. Web Workers
+    // Web Workers allow JavaScript to run in a background thread, separate from the main UI thread.
+    // Quick idea:
+    // Heavy loop → moved to background thread
+    // Main thread → handles UI
+    // Communication → postMessage
+
+    // Why use Web Workers?
+    // JavaScript is single-threaded → heavy tasks block UI
+
+
     // In file worker.js
-    self.addEventListener("message", function (e) {
-        let result = e.data * 2; // Example of a time-consuming task
+    self.onmessage = function(e) {
+        let result = e.data * 2; // heavy task
         self.postMessage(result);
-    });
+    };
 
     // In main.js
-    let worker = new Worker("worker.js");
-    worker.postMessage(10); // Send data to the worker
-    worker.addEventListener("message", function (e) {
-        console.log("Result from worker:", e.data); // Result from worker: 20
-    });
+    const worker = new Worker("worker.js");
 
+    // Send data
+    worker.postMessage(10);
 
+    // Receive data
+    worker.onmessage = function(e) {
+    console.log("Result:", e.data);
+    };
