@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Promise Example - Fetch User</h2>
+
+    <input type="text" id="userIndex" value="1" placeholder="Enter user index (0-2)" />
+
+
+    <div id="output"></div>
+
+    <script>
+        const list = [
+            {
+                name: "Shafiuddin",
+                age: 30,
+                city: "Dhaka"
+            },
+            {
+                name: "John Doe",
+                age: 25,
+                city: "New York"
+            },
+            {
+                name: "Jane Smith",
+                age: 28,
+                city: "London"
+            }
+        ];
+
+        // Step 1: Create Promise function
+        function getUserData(index) {
+            return new Promise((resolve, reject) => {
+                console.log("Fetching user data...");
+
+                const user = list[index];
+
+                if (user) {
+                    resolve(user);
+                } else {
+                    reject("User not found");
+                }
+            });
+        }
+
+        // Step 2: Consume Promise
+        const output = document.getElementById("output");
+        let userIndexInput = document.getElementById("userIndex");
+
+        function loadUser(index) {
+            output.innerHTML = "Loading...";
+            getUserData(index)
+                .then((user) => {
+                    console.log("User Data:", user);
+                    output.innerHTML = `
+                        <p><b>Name:</b> ${user.name}</p>
+                        <p><b>Age:</b> ${user.age}</p>
+                    `;
+                })
+                .catch((error) => {
+                    console.log("Error:", error);
+                    output.innerHTML = `<p style="color:red;">${error}</p>`;
+                });
+        }
+
+        // Auto-reload data on input change
+        userIndexInput.addEventListener("input", () => {
+            loadUser(userIndexInput.value);
+        });
+
+        // Initial load
+        loadUser(userIndexInput.value);
+    </script>
+
+</body>
+</html>
