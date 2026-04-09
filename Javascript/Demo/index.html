@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test index</title>
+</head>
+<body>
+    <h1>Test index</h1>
+    <div id="testDom"></div>
+
+    <div id="testDomEventLister"></div>
+
+    <div id="funcRender"></div>
+
+    <script>
+        // Test data for DOM manipulation
+        const testDom = document.getElementById("testDom");
+
+        const list = [
+            {
+                name: "Shafiuddin",
+                age: 30,
+                city: "Dhaka"
+            },
+            {
+                name: "John Doe",
+                age: 25,
+                city: "New York"
+            },
+            {
+                name: "Jane Smith",
+                age: 28,
+                city: "London"
+            }
+        ]
+
+
+        const ListHTML = list.map(item => `
+            <ul>
+                <li>Name: ${item.name}</li>
+                <li>Age: ${item.age}</li>
+                <li>City: ${item.city}</li>
+            </ul>
+        `).join("");
+
+        testDom.innerHTML = ListHTML;
+        // End of test data for DOM manipulation
+
+        // Test data for event listener
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const testDomEventLister = document.getElementById("testDomEventLister");
+
+            testDomEventLister.innerHTML = `
+                <p>Click the button to see an alert:</p>
+            `;
+            
+        });
+
+        // End of test data for event listener
+
+
+        // Test data for function rendering
+        const funcRender = document.getElementById("funcRender");
+
+        function renderUserCard(user) {
+            return `
+                <div class="user-card">
+                    <p><strong>Name:</strong> ${user.name}</p>
+                    <p><strong>Age:</strong> ${user.age}</p>
+                    <p><strong>City:</strong> ${user.city}</p>
+                </div>
+            `;
+        }   
+
+        funcRender.innerHTML = renderUserCard(list[0]);
+        // End of test data for function rendering
+
+    </script>
+</body>
+</html>
