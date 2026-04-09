@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API Using Promises</title>
+</head>
+<body>
+    <h1>Fetch API Example</h1>
+    <input type="text" id="userIndex" value="" placeholder="Enter user index" />
+
+
+    <div id="userData"></div>
+    
+
+
+    <script>
+        const userDataDiv = document.getElementById("userData");
+        const userIndexInput = document.getElementById("userIndex");
+
+        userDataDiv.innerHTML = "Loading user data...";
+
+        const url = "https://jsonplaceholder.typicode.com/users";
+
+
+        function fetchUserData(userIndex) {
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(users => {
+
+                    if (userIndex === "") {
+                        
+                        userDataDiv.innerHTML = "";
+
+                        users.map(user => {
+                            userDataDiv.innerHTML += `
+                                <h2>${user.name}</h2>
+                                <p><strong>Email:</strong> ${user.email}</p>
+                                <p><strong>Phone:</strong> ${user.phone}</p>
+                                <p><strong>Website:</strong> ${user.website}</p>
+                                <hr />
+                            `;
+                        });
+                        return;
+                    } else if (userIndex >= 0 && userIndex < users.length) {
+                        const user = users[userIndex];
+                        userDataDiv.innerHTML = `
+                            <h2>${user.name}</h2>
+                            <p><strong>Email:</strong> ${user.email}</p>
+                            <p><strong>Phone:</strong> ${user.phone}</p>
+                            <p><strong>Website:</strong> ${user.website}</p>
+                            <hr />
+                        `;
+                        return;
+                    } else {
+                        throw new Error("Invalid user index");
+                    }
+
+                })
+                .catch(error => {
+                    userDataDiv.innerHTML = `Error fetching user data: ${error.message}`;
+                });
+            }
+
+        userIndexInput.addEventListener("input", () => {
+            userDataDiv.innerHTML = "Loading user data...";
+            fetchUserData(userIndexInput.value);
+        });
+        
+        fetchUserData(userIndexInput.value);
+
+    </script>
+</body>
+</html>
