@@ -1,9 +1,11 @@
 // Learn javascript intermediate. 
     // 1. Logical operators
     // 2. Loops (for, while, for...of, for...in, forEach)
-    // 3. Map, filter, reduce
-    // 4. Higher-Order Functions
-            
+    // 3. Map
+    // 4. Filter
+    // 5. Reduce
+    // 6. Higher-Order Functions
+    // 7. Callback Functions            
 
 
 // 1. Logical operators
@@ -99,9 +101,18 @@
         console.log(`${key}: ${person[key]}`); // name: John, age: 30
     });
 
-// 3. Map, filter, reduce
 
-// 3.1 Map with arrays
+// 3. Map 
+    // map() is used to transform data by applying a function to each element in an array and returning a new array with the transformed values.
+    // map → “Give me a new array”
+    // map() → modify each item
+    array.map((element, index, array) => {
+        return newValue;
+    });
+    //element → current item
+    //index → position (optional)
+    //array → original array (optional)
+
 let numbers = [1, 2, 3, 4, 5];
 let squaredNumbers = numbers.map(num => num * num);
 console.log(squaredNumbers); // [1, 4, 9, 16, 25]
@@ -115,73 +126,124 @@ console.log(squaredNumbers); // [1, 4, 9, 16, 25]
     let names = people.map(person => person.name);
     console.log(names); // ["Alice", "Bob", "Charlie"]
 
-// 3.2 Filter even numbers from the array
-let evenNumbers = numbers.filter(num => num % 2 === 0);
-console.log(evenNumbers); // [2, 4]
+// 4. Filter 
+    // filter() is used to select data based on a condition.
+    // filter -- > pick some items
+    array.filter((element, index, array) => {
+        return condition; // true to keep, false to discard
+    });
+
+    //element → current item
+    //index → position (optional)
+    //array → original array (optional)
+    let evenNumbers = numbers.filter(num => num % 2 === 0);
+    console.log(evenNumbers); // [2, 4]
 
     // Example of filter with objects
     let adults = people.filter(person => person.age >= 30);
     console.log(adults); // [{ name: "Bob", age: 30 }, { name: "Charlie", age: 35 }]   
     
-// 3.3 Reduce to sum all numbers in the array
-let sum = numbers.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-console.log(sum); // 15
+// 5. Reduce 
+    // reduce() is used to combine all elements of an array into a single value, like sum or product.
+    // Quick idea:
+    // reduce() = take all values → combine into one result
 
-    // Example of reduce with objects to calculate total age
+    array.reduce((accumulator, currentValue, index, array) => {
+        return newAccumulator;
+    }, initialValue);
+    //accumulator → accumulates the result (starts with initialValue)
+    //currentValue → current item
+    //index → position (optional)
+    //array → original array (optional)
+
+
+    // Example of reduce to calculate the sum of an array
+    const numb1 = [1, 2, 3, 4];
+    const sum = numb1.reduce((acc, curr) => acc + curr, 0);
+    console.log(sum); // 10
+
+    //Explanation (very simple)
+    // acc → keeps total
+    // curr → current number
+    // 0 → starting value
+
+    //Step flow:
+    // 0 + 1 = 1  
+    // 1 + 2 = 3  
+    // 3 + 3 = 6  
+    // 6 + 4 = 10
+
+    // Eample 2:
+    const red1 = numbers.reduce((acc, curr) => acc * curr, 1);
+    console.log(red1); // 24 (1 * 2 * 3 * 4)
+
+
+    // Example 3 of reduce with objects to calculate total age
     let totalAge = people.reduce((accumulator, person) => accumulator + person.age, 0);
     console.log(totalAge); // 90 (25 + 30 + 35)
     
 
-// 4. Higher-Order Functions
-    // 4.1 Function that takes another function as an argument
+// 6. Higher-Order Functions
+    // 1.HOF is a function that accepts another function as an argument 
+    // 2. returns another function as a result.
+    // Quick idea:
+    // HOF → “I receive a function or return a function”
+
+
+    // 6.1 Function that takes another function as an argument
     function performOperation(a, b, operation) {
         return operation(a, b);
     }
     console.log(performOperation(5, 3, add)); // 8 (using the add function defined earlier)
 
-    // 4.2 Function that returns another function
-    function createMultiplier(multiplier) {
-        return function (num) {
-            return num * multiplier;
+    // 6.2 Function that returns another function
+    function greetUser(greeting) {
+        return function(name) {
+            return `${greeting}, ${name}`;
         };
     }
-    const double = createMultiplier(2);
-    console.log(double(5)); // 10 (5 multiplied by 2)
+    // 1. Call outer function
+    const sayHello = greetUser("Hello");
+    // 2. Call returned function
+    console.log(sayHello("Shafi")); // Hello, Shafi
 
-    // 4.3 Using higher-order functions with arrays
-    let numbers2 = [1, 2, 3, 4, 5];
-    let doubledNumbers = numbers2.map(num => num * 2);
-    console.log(doubledNumbers); // [2, 4, 6, 8, 10]
-
-        // Example of using filter with a higher-order function
-        let isEvenNumber = num => num % 2 === 0;
-        let evenNumbers2 = numbers2.filter(isEvenNumber);
-        console.log(evenNumbers2); // [2, 4]
-
-        // Example of using reduce with a higher-order function
-        let sumNumbers = (accumulator, currentValue) => accumulator + currentValue;
-        let totalSum = numbers2.reduce(sumNumbers, 0);
-        console.log(totalSum); // 15
-
-    // 4.4 Using higher-order functions with objects
-    let people2 = [
-        { name: "Alice", age: 25 },
-        { name: "Bob", age: 30 },
-        { name: "Charlie", age: 35 }
-    ];
-    let names2 = people2.map(person => person.name);
-    console.log(names2); // ["Alice", "Bob", "Charlie"]
-
-        // Example of using filter with a higher-order function on objects
-        let adults2 = people2.filter(person => person.age >= 30);
-        console.log(adults2); // [{ name: "Bob", age: 30 }, { name: "Charlie", age: 35 }]
-
-        // Example of using reduce with a higher-order function on objects to calculate total age
-        let totalAge2 = people2.reduce((accumulator, person) => accumulator + person.age, 0);
-        console.log(totalAge2); // 90 (25 + 30 + 35)
-
-// 5. Pure Function
-    function pureAdd(a, b) {
-        return a + b;
+    // 6.3 Discount example using HOF
+    function createDiscount(discount) {
+        return function(price) {
+            return price - (price * discount);
+        };
     }
-    console.log(pureAdd(5, 3)); // 8
+
+    const finalPrice = createDiscount(0.25);
+    console.log(finalPrice(4588)); // 3441
+
+    // Real World Example of HOF: 
+    // Map, filter, and reduce are all higher-order functions because they take a function as an argument to perform operations on array elements.
+    // Map example:
+    [1, 2, 3].map(n => n * 2); // [2, 4, 6]
+    // Filter example:
+    [1, 2, 3, 4].filter(n => n % 2 === 0); // [2, 4]
+    // Reduce example:
+    [1, 2, 3, 4].reduce((acc, curr) => acc + curr, 0); // 10
+
+// 7. Callback Functions
+    // A callback function is a function that is passed as an argument to another function and is executed later.
+    // It is passed as an argument
+    // It is called inside another function
+    // Quick idea:
+    // Callback → “I am the function being passed”
+
+    const add = (a, b) => a + b;
+    performOperation(5, 3, add);
+
+// 8. Difference between HOF and Callback
+    // HOF
+    // performOperation is a HOF because it accepts another function (operation) as an argument.
+    function performOperation(a, b, operation) {
+        return operation(a, b);
+    }
+
+    // Callback
+    // add is the callback function being passed to performOperation
+    const add1 = (a, b) => a + b;
+    performOperation(5, 3, add1); 
